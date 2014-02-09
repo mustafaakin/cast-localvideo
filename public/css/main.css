@@ -1,0 +1,13 @@
+body {
+	background: whiteSmoke;
+}
+
+#fileList {
+	height: 550px;
+	max-height: 550px;
+	overflow: auto;
+	box-shadow: black 5px 5px 25px;
+}
+.folder-group {
+	margin-left: 10px;
+}

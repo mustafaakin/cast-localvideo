@@ -1,0 +1,10 @@
+- each f in folders
+	a.list-group-item.folder(data-path='#{f.path}',href="#")
+		i.glyphicon.glyphicon-folder-open
+		| &nbsp; #{f.name}
+- each f in files
+	a.list-group-item.file(data-path='#{f.path}',href="#")
+		.a.btn.btn-default.btn-xs 
+			i.glyphicon.glyphicon-play
+			| &nbsp; Play
+		| &nbsp; #{f.name}

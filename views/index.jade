@@ -1,0 +1,45 @@
+html
+	head
+		title LocalCast
+		link(rel="stylesheet", href="css/flatly.css")
+		link(rel="stylesheet", href="css/main.css")
+		script(type='text/javascript', src='https://www.gstatic.com/cv/js/sender/v1/cast_sender.js')
+		script(src="js/jquery.min.js")
+		script(src="js/bootstrap.js")
+		script(src="js/main.js")
+	body
+		.container
+			center
+				small Created by
+					a(href="http://mustafaak.in") Mustafa Akın 
+					| feel free to fork it on  
+					a(href="http://github.com/mustafaakin/castlocalvideo") GitHub
+			.row
+				.col-lg-6
+					h3 Folders 
+							.input-group
+								input.form-control(id="currentPathInput",value="C:/")
+								.input-group-btn
+									button.btn.btn-primary#setFolderBtn Go
+					.list-group#fileList
+						a.list-group-item
+							i.glyphicon.glyphicon-folder-open
+							| &nbsp; Here comes your folders
+				.col-lg-6
+					h3 Information &nbsp;
+					.alert.alert-info#castStatus Initializing Cast API
+					.well
+						i Choose a network interface that your Chromecast can probably reach.
+						- for(var i in interfaces)
+							- for(var j in interfaces[i])
+								- var network = interfaces[i][j];
+								- if ( !network.internal && network.family == 'IPv4')
+									.radio
+										label
+											input(type="radio",name="networkInterface", value="#{network.address}")
+											| #{i} - #{network.address}
+					#metadata
+			.row
+				.col-lg-3
+				.col-lg-6
+					video#vid(width="100%",controls,autoplay)
