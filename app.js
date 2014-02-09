@@ -100,5 +100,5 @@ app.post("/metadata", function(req,res){
 });
 
 
-
+console.log("Open http://localhost:8000/ at your Chrome browser.");
 app.listen(8000);
