@@ -11,7 +11,7 @@ $(document).ready(function() {
 	}
 
 	function loadMetaData(file) {
-		var formValues = "file=" + file;
+		var formValues = "file=" + encodeURIComponent(file);
 		$.post("/metadata", formValues, function(data) {
 			$("#metadata").html(data);
 		});
