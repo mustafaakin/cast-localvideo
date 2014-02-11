@@ -17,11 +17,19 @@ $(document).ready(function() {
 		});
 	}
 
-	$("#setFolderBtn").click(function(){
+	function changeDirectory() {
 		var currentFolder = $("#currentPathInput").val();
 		loadFiles(currentFolder);
-	});
+	}
 
+	$("#setFolderBtn").click(changeDirectory);
+
+	$('#currentPathInput').keyup(function(e){
+		if(e.keyCode == 13)
+		{
+			changeDirectory();
+		}
+	});
 
 	$(".folder").live("click", function() {
 		var path = $(this).data("path");
