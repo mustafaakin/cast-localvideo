@@ -2,7 +2,7 @@ $(document).ready(function() {
 	var currentFolder = $("#currentPathInput").val();
 
 	function loadFiles(folder) {
-		var formValues = "dir=" + folder;
+		var formValues = "dir=" + encodeURIComponent(folder);
 		$.post("/files", formValues, function(data) {
 			$("#fileList").html(data);
 			currentFolder = folder;
