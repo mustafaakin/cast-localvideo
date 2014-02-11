@@ -20,7 +20,7 @@ How to install & use
 
 ```
 
-$ git clone git@github.com:mustafaakin/cast-localvideo.git
+$ git clone https://github.com/mustafaakin/cast-localvideo.git
 $ cd cast-localvideo
 $ npm install
 $ node app
