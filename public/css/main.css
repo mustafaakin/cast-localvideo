@@ -1,13 +1,19 @@
-body {
-	background: whiteSmoke;
+* {
+	padding: 0;
 }
 
-#fileList {
-	height: 550px;
-	max-height: 550px;
-	overflow: auto;
-	box-shadow: black 5px 5px 25px;
+body {
+
 }
+
+
+
 .folder-group {
 	margin-left: 10px;
+}
+
+.full-height {
+	height: 100%;
+	overflow-y: scroll;
+
 }

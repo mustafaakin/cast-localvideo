@@ -4,31 +4,48 @@ var path = require("path");
 var spawn = require("child_process").spawn;
 var Metalib = require('fluent-ffmpeg').Metadata;
 var os = require("os");
+var async = require("async");
+
+function convertBytesToHumanReadableString(bytes) {
+	var values = ["B", "KB", "MB", "GB", "TB"];
+	var i = 0;
+	while (bytes > 1000) {
+		bytes = bytes / 1000;
+		i++;
+	}
+	return parseInt(bytes) + " " + values[i];
+}
+
+
 var app = express();
 app.set('view engine', 'jade');
-app.set('view options', {layout: false});
+app.set('view options', {
+	layout: false
+});
 app.use(express.json());
 app.use(express.urlencoded());
-app.use( express.cookieParser() );
+app.use(express.cookieParser());
 app.use(express.logger("dev"));
 app.use(express.static(__dirname + '/public'));
 
-app.get("/", function(req,res){
+app.get("/", function(req, res) {
 	var interfaces = os.networkInterfaces();
 	var rootDirectory = process.env.HOME || process.env.HOMEPATH || process.env.USERPROFILE;
-	console.log(rootDirectory);
-	res.render("index", {rootDirectory: rootDirectory, interfaces: interfaces});
+	res.render("index", {
+		rootDirectory: rootDirectory,
+		interfaces: interfaces
+	});
 });
 
-app.get("/sample", function(req,res){
+app.get("/sample", function(req, res) {
 	res.render("sample");
 });
 
-app.post("/files", function(req,res){
+
+app.post("/folders", function(req, res) {
 	var dir = req.body.dir;
 	var entries = fs.readdirSync(dir);
-	
-	var files = [];
+
 	var folders = [];
 
 	folders.push({
@@ -36,34 +53,85 @@ app.post("/files", function(req,res){
 		name: "Up"
 	});
 
-	for(var i in entries){
+	for (var i in entries) {
 		try {
 			var p = path.join(dir, entries[i]);
 			var stat = fs.statSync(p);
-			if ( stat.isDirectory() ){
+			if (stat.isDirectory()) {
 				folders.push({
 					path: p,
 					name: require("path").basename(p)
 				});
-			} else if ( stat.isFile()){
-				files.push({
-					path: p,
-					name: require("path").basename(p)
-				});
-			}	
-		} catch (ex){
-		
+			}
+		} catch (ex) {
+			// Meh
 		}
 	}
-	res.render("files", {folders: folders, files: files});
+	res.render("folders", {
+		folders: folders
+	});
 });
 
-app.post("/getFile", function(req,res){
+
+
+app.post("/files", function(req, res) {
+	var dir = req.body.dir;
+	var entries = fs.readdirSync(dir);
+
+	var files = [];
+
+	for (var i in entries) {
+		try {
+			var p = path.join(dir, entries[i]);
+			var stat = fs.statSync(p);
+			if (stat.isFile()) {
+				var extension = require("path").extname(p);
+				var isPlayable = false;
+				if (extension && extension.length && extension.length > 0) {
+					isPlayable = /\b(wmv|mkv|avi|flv|mov|webm|3gp|mp4)$/i.test(extension);
+				}
+				files.push({
+					path: p,
+					name: require("path").basename(p),
+					isPlayable: isPlayable
+				});
+			}
+		} catch (ex) {
+			// throw ex;
+		}
+	}
+
+
+	async.map(files, function(item, callback) {
+		try {
+			fs.stat(item.path, function(err, stat) {
+				// If error unreadable file
+				if (err) {
+					item.size = -1;
+					callback(null, item);
+				} else {
+					item.size = convertBytesToHumanReadableString(stat.size);
+					callback(null, item);
+				}
+			});
+		} catch (err) {
+			callback(null, item);
+		}
+	}, function(err, results) {
+		res.render("files", {
+			files: results
+		});
+	});
+
+});
+
+
+app.post("/getFile", function(req, res) {
 	var dir = req.body.dir;
 	res.sendFile(dir);
 });
 
-app.get("/video/*", function(req,res){
+app.get("/video/*", function(req, res) {
 	res.writeHead(200, {
 		'Content-Type': 'video/mp4'
 	});
@@ -73,26 +141,26 @@ app.get("/video/*", function(req,res){
 	var buf = new Buffer(dir, 'base64');
 	var src = buf.toString();
 
-    var Transcoder = require('./transcoder.js');
-    // Start ffmpeg    
-    var stream = fs.createReadStream(src);
-	
+	var Transcoder = require('./transcoder.js');
+	// Start ffmpeg    
+	var stream = fs.createReadStream(src);
+
 	// Feel free to change those, but libx264 is faster than vp8
 	// A resize mechanism can be used
 	new Transcoder(stream)
-        .videoCodec('libx264')
-        .audioCodec("libvo_aacenc")
-        .sampleRate(44100)
-        .channels(2)
-        .audioBitrate(128 * 1000)
-        .format('mp4')
-        .on('finish', function() {
-        	console.log("ffmpeg process finished");
-        })
-        .stream().pipe(res);
+		.videoCodec('libx264')
+		.audioCodec("libvo_aacenc")
+		.sampleRate(44100)
+		.channels(2)
+		.audioBitrate(128 * 1000)
+		.format('mp4')
+		.on('finish', function() {
+			console.log("ffmpeg process finished");
+		})
+		.stream().pipe(res);
 });
 
-app.post("/metadata", function(req,res){
+app.post("/metadata", function(req, res) {
 	var file = req.body.file;
 	console.log("Metadata of", file, "requested");
 	var metaObject = new Metalib(file, function(metadata, err) {

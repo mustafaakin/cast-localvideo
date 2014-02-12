@@ -8,25 +8,25 @@ html
 		script(src="js/bootstrap.js")
 		script(src="js/main.js")
 	body
-		.container
-			center
-				small Created by
-					a(href="http://mustafaak.in") Mustafa Akın 
-					| feel free to fork it on  
-					a(href="http://github.com/mustafaakin/castlocalvideo") GitHub
+		.container-fluid
 			.row
-				.col-lg-6
+				.col-sm-3.full-height.bg-primary
 					h3 Folders 
 							.input-group
 								input.form-control(id="currentPathInput",value="#{rootDirectory}")
 								.input-group-btn
-									button.btn.btn-primary#setFolderBtn Go
-					.list-group#fileList
+									button.btn.btn-info#setFolderBtn Go
+					.list-group#folderList
 						a.list-group-item
 							i.glyphicon.glyphicon-folder-open
 							| &nbsp; Here comes your folders
-				.col-lg-6
+				.col-sm-4.full-height
+					h3 Files 
+						small Supported files will have play button with them
+					.list-group#fileList
+				.col-sm-5.full-height
 					h3 Information &nbsp;
+					#metadata
 					.alert.alert-info#castStatus Initializing Cast API
 					.well
 						i Choose a network interface that your Chromecast can probably reach.
@@ -38,8 +38,4 @@ html
 										label
 											input(type="radio",name="networkInterface", value="#{network.address}")
 											| #{i} - #{network.address}
-					#metadata
-			.row
-				.col-lg-3
-				.col-lg-6
 					video#vid(width="100%",controls,autoplay)

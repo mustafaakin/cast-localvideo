@@ -1,13 +1,17 @@
 $(document).ready(function() {
 	var currentFolder = $("#currentPathInput").val();
 
-	function loadFiles(folder) {
+	function loadFoldersAndFiles(folder) {
 		var formValues = "dir=" + encodeURIComponent(folder);
-		$.post("/files", formValues, function(data) {
-			$("#fileList").html(data);
+		$.post("/folders", formValues, function(data) {
+			$("#folderList").html(data);
 			currentFolder = folder;
 			$("#currentPathInput").val(currentFolder);
 		});
+		$.post("/files", formValues, function(data) {
+			$("#fileList").html(data);
+		});
+
 	}
 
 	function loadMetaData(file) {
@@ -19,7 +23,7 @@ $(document).ready(function() {
 
 	function changeDirectory() {
 		var currentFolder = $("#currentPathInput").val();
-		loadFiles(currentFolder);
+		loadFoldersAndFiles(currentFolder);
 	}
 
 	$("#setFolderBtn").click(changeDirectory);
@@ -33,7 +37,7 @@ $(document).ready(function() {
 
 	$(".folder").live("click", function() {
 		var path = $(this).data("path");
-		loadFiles(path);
+		loadFoldersAndFiles(path);
 	});
 
 	$(".file").live("click", function() {
@@ -84,7 +88,7 @@ $(document).ready(function() {
 		chrome.cast.requestSession(onRequestSessionSuccess, onLaunchError);
 	});
 
-	loadFiles(currentFolder);
+	loadFoldersAndFiles(currentFolder);
 
 	function initializeCastApi() {
 		var sessionRequest = new chrome.cast.SessionRequest(chrome.cast.media.DEFAULT_MEDIA_RECEIVER_APP_ID);

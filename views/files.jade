@@ -1,10 +1,13 @@
-- each f in folders
-	a.list-group-item.folder(data-path='#{f.path}',href="#")
-		i.glyphicon.glyphicon-folder-open
-		| &nbsp; #{f.name}
 - each f in files
-	a.list-group-item.file(data-path='#{f.path}',href="#")
-		.a.btn.btn-default.btn-xs 
-			i.glyphicon.glyphicon-play
-			| &nbsp; Play
-		| &nbsp; #{f.name}
+	- if ( f.path && f.name.indexOf(".") != 0) // Hidden file check
+		- if ( f.isPlayable)
+			a.list-group-item.file(data-path='#{f.path}',href="#")
+				.pull-right
+					span.badge #{f.size}
+				.btn.btn-xs.btn-info PLAY
+				| &nbsp; #{f.name}
+		- else 
+			a.list-group-item(data-path='#{f.path}',href="#")
+				.badge.pull-right #{f.size}
+				i.glyphicon.glyphicon-file
+				| &nbsp; #{f.name}
