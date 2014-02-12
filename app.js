@@ -15,7 +15,9 @@ app.use(express.static(__dirname + '/public'));
 
 app.get("/", function(req,res){
 	var interfaces = os.networkInterfaces();
-	res.render("index", {interfaces: interfaces});
+	var rootDirectory = process.env.HOME || process.env.HOMEPATH || process.env.USERPROFILE;
+	console.log(rootDirectory);
+	res.render("index", {rootDirectory: rootDirectory, interfaces: interfaces});
 });
 
 app.get("/sample", function(req,res){
