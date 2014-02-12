@@ -19,7 +19,7 @@ Installation and Use
 * 	On a terminal, do the following:
 
 ```
-
+// OR Use "Download ZIP" button.
 $ git clone https://github.com/mustafaakin/cast-localvideo.git
 $ cd cast-localvideo
 $ npm install
