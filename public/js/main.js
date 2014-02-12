@@ -2,7 +2,7 @@ $(document).ready(function() {
 	var currentFolder = $("#currentPathInput").val();
 
 	function loadFiles(folder) {
-		var formValues = "dir=" + folder;
+		var formValues = "dir=" + encodeURIComponent(folder);
 		$.post("/files", formValues, function(data) {
 			$("#fileList").html(data);
 			currentFolder = folder;
@@ -11,7 +11,7 @@ $(document).ready(function() {
 	}
 
 	function loadMetaData(file) {
-		var formValues = "file=" + file;
+		var formValues = "file=" + encodeURIComponent(file);
 		$.post("/metadata", formValues, function(data) {
 			$("#metadata").html(data);
 		});
