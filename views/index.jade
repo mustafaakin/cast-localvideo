@@ -1,12 +1,9 @@
 html
 	head
 		title LocalCast
-		link(rel="stylesheet", href="css/flatly.css")
-		link(rel="stylesheet", href="css/main.css")
+		link(rel="stylesheet", href="/css/flatly.css")
+		link(rel="stylesheet", href="/css/main.css")
 		script(type='text/javascript', src='https://www.gstatic.com/cv/js/sender/v1/cast_sender.js')
-		script(src="js/jquery.min.js")
-		script(src="js/bootstrap.js")
-		script(src="js/main.js")
 	body
 		.container-fluid
 			.row
@@ -39,3 +36,6 @@ html
 											input(type="radio",name="networkInterface", value="#{network.address}")
 											| #{i} - #{network.address}
 					video#vid(width="100%",controls,autoplay)
+		script(src="/js/jquery.min.js")
+		script(src="/js/bootstrap.js")
+		script(src="/js/main.js")
