@@ -28,14 +28,18 @@ app.use(express.cookieParser());
 app.use(express.logger("dev"));
 app.use(express.static(__dirname + '/public'));
 
-app.get("/", function(req, res) {
+var gui = function(req, res) {
 	var interfaces = os.networkInterfaces();
-	var rootDirectory = process.env.HOME || process.env.HOMEPATH || process.env.USERPROFILE;
+	var rootDirectory = req.params[0] || process.env.HOME || process.env.HOMEPATH || process.env.USERPROFILE;
 	res.render("index", {
 		rootDirectory: rootDirectory,
 		interfaces: interfaces
 	});
-});
+}
+
+app.get("/", gui);
+app.param("path", function(){});
+app.get( /^\/dir\/(.*)$/, gui);
 
 app.get("/sample", function(req, res) {
 	res.render("sample");
