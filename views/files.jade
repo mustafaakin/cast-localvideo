@@ -1,13 +1,13 @@
 - each f in files
 	- if ( f.path && f.name.indexOf(".") != 0) // Hidden file check
 		- if ( f.isPlayable)
-			a.list-group-item.file(data-path='#{f.path}',href="#")
+			a.list-group-item.file(href='#{f.path}')
 				.pull-right
 					span.badge #{f.size}
 				.btn.btn-xs.btn-info PLAY
 				| &nbsp; #{f.name}
 		- else 
-			a.list-group-item(data-path='#{f.path}',href="#")
+			a.list-group-item(data-path='#{f.path}')
 				.badge.pull-right #{f.size}
 				i.glyphicon.glyphicon-file
 				| &nbsp; #{f.name}

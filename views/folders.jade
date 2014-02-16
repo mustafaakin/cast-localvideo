@@ -1,5 +1,5 @@
 - each f in folders
 	- if ( f.path && f.name.indexOf(".") != 0)
-		a.list-group-item.folder(data-path='#{f.path}',href="#")
+		a.list-group-item.folder(href='#{f.path}')
 			i.glyphicon.glyphicon-folder-open
 			| &nbsp; #{f.name}

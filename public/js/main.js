@@ -35,13 +35,15 @@ $(document).ready(function() {
 		}
 	});
 
-	$(".folder").live("click", function() {
-		var path = $(this).data("path");
-		loadFoldersAndFiles(path);
+	$(".folder").live("click", function(e) {
+		e.preventDefault();
+		var path = $(this).attr("href");
+		cdAction(path);
 	});
 
-	$(".file").live("click", function() {
-		var path = $(this).data("path");
+	$(".file").live("click", function(e) {
+		e.preventDefault();
+		var path = $(this).attr("href");
 		loadMetaData(path);
 	})
 
