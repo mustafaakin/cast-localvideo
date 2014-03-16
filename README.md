@@ -27,7 +27,7 @@ $ node app
 
 ```
 
-* In Chrome, go to [http://localhost:8000](http://localhost:8000). You will see your folders (just change the folder to `/` on Linux & Mac. There is no root concept in Windows as in Unix, so if you wish to use another drive, just use `D:` 
+* In Chrome, go to [http://localhost:8000](http://localhost:8000). You will see your folders (just change the folder to `/` on Linux & Mac). There is no root concept in Windows as in Unix, so if you wish to use another drive, just use `D:` 
 
 * Navigate through your folders to locate a video.
 * Select the video and you will see the metadata if it is available in the file. (It currently shows all extensions, does not check if it is really a video file)
