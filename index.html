@@ -1,0 +1,108 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Cast-localvideo by mustafaakin</title>
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="javascripts/main.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+  </head>
+  <body>
+
+      <header>
+        <h1>Cast-localvideo</h1>
+        <p>Plays Local videos at your computer on your Chromecast</p>
+      </header>
+
+      <div id="banner">
+        <span id="logo"></span>
+
+        <a href="https://github.com/mustafaakin/cast-localvideo" class="button fork"><strong>View On GitHub</strong></a>
+        <div class="downloads">
+          <span>Downloads:</span>
+          <ul>
+            <li><a href="https://github.com/mustafaakin/cast-localvideo/zipball/master" class="button">ZIP</a></li>
+            <li><a href="https://github.com/mustafaakin/cast-localvideo/tarball/master" class="button">TAR</a></li>
+          </ul>
+        </div>
+      </div><!-- end banner -->
+
+    <div class="wrapper">
+      <nav>
+        <ul></ul>
+      </nav>
+      <section>
+        <h1>
+<a name="cast-localvideo" class="anchor" href="#cast-localvideo"><span class="octicon octicon-link"></span></a>cast-localvideo</h1>
+
+<p>Plays Local videos at your computer on your Chromecast. Beta for now.  </p>
+
+<h1>
+<a name="requirements" class="anchor" href="#requirements"><span class="octicon octicon-link"></span></a>Requirements</h1>
+
+<ol>
+<li> A reachable Chromecast on your network, no client isolation in your router etc.</li>
+<li> Chrome Browser version 32 or later</li>
+<li> Cast extension in <a href="https://chrome.google.com/webstore/detail/google-cast/boadgeojelhgndaghljhdicfkmllpafd?hl=en">Chrome Store</a>
+</li>
+<li> NodeJS v0.10+</li>
+<li> FFMpeg installed and reachable in PATH (<a href="http://www.wikihow.com/Install-FFmpeg-on-Windows">Windows guide</a>) </li>
+<li> A fast enough home interconnection network</li>
+</ol><h1>
+<a name="installation-and-use" class="anchor" href="#installation-and-use"><span class="octicon octicon-link"></span></a>Installation and Use</h1>
+
+<ul>
+<li>  On a terminal, do the following:</li>
+</ul><pre><code>// OR Use "Download ZIP" button.
+$ git clone https://github.com/mustafaakin/cast-localvideo.git
+$ cd cast-localvideo
+$ npm install
+$ node app
+
+</code></pre>
+
+<ul>
+<li><p>In Chrome, go to <a href="http://localhost:8000">http://localhost:8000</a>. You will see your folders (just change the folder to <code>/</code> on Linux &amp; Mac). There is no root concept in Windows as in Unix, so if you wish to use another drive, just use <code>D:</code> </p></li>
+<li><p>Navigate through your folders to locate a video.</p></li>
+<li>Select the video and you will see the metadata if it is available in the file. (It currently shows all extensions, does not check if it is really a video file)</li>
+<li>Click play local to test to see if it plays on Chrome. Note that it plays very fast after some seconds, because Chrome cannot detect its length. It may be a bug, see this <a href="http://stackoverflow.com/questions/21615089/http-header-for-duration-of-a-mp4-for-html-5-video">Stackoverflow Question</a> to help solving this. </li>
+<li>Click the "Cast to Chromecast" button to play the video on your Chromecast. It will plays normally, at its normal speed.</li>
+<li>Check the terminal to see if any errors were thrown. Sometimes FFmpeg can not handle the video and as a result it will crashe the application. <em>Sorry.</em>
+</li>
+</ul><h1>
+<a name="note" class="anchor" href="#note"><span class="octicon octicon-link"></span></a>Note</h1>
+
+<p>I developed this on Windows, on my parents computer remotely via TeamViewer. It is not feature complete, but it is easy to add features. Any pull requests and forks are welcome.  </p>
+
+<h1>
+<a name="todos" class="anchor" href="#todos"><span class="octicon octicon-link"></span></a>TODOs</h1>
+
+<ol>
+<li> Be able to pause/resume content.</li>
+<li> Solve <a href="http://stackoverflow.com/questions/21615089/http-header-for-duration-of-a-mp4-for-html-5-video">the duration bug</a>.</li>
+<li> Make use of the session feature of the Cast API to remember what is playing even if the server is down.</li>
+<li> Package it as a nice application for end users.</li>
+<li> Embed subtitles via FFMpeg.</li>
+<li> Resize the videos if they are too big.</li>
+<li> Options to change encoding options.</li>
+</ol><h3>
+<a name="contact" class="anchor" href="#contact"><span class="octicon octicon-link"></span></a>Contact</h3>
+
+<p>Contact <em>mustafa91</em> at <em>gmail</em> for any questions. My website is <a href="http://mustafaak.in">here</a>.</p>
+      </section>
+      <footer>
+        <p>Project maintained by <a href="https://github.com/mustafaakin">mustafaakin</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://twitter.com/michigangraham">mattgraham</a></small></p>
+      </footer>
+    </div>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+    
+  </body>
+</html>
