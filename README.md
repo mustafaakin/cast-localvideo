@@ -18,8 +18,12 @@ Installation and Use
 
 * 	On a terminal, do the following:
 
-```
-// OR Use "Download ZIP" button.
+```bash
+# If you need to install FFMpeg on a mac
+# libvo-aacenc is the default codec for streaming to the chromecast
+$ brew install ffmpeg --with-libvo-aacenc
+
+# OR Use "Download ZIP" button.
 $ git clone https://github.com/mustafaakin/cast-localvideo.git
 $ cd cast-localvideo
 $ npm install
