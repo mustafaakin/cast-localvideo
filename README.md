@@ -33,7 +33,7 @@ $ node app
 * Select the video and you will see the metadata if it is available in the file. (It currently shows all extensions, does not check if it is really a video file)
 * Click play local to test to see if it plays on Chrome. Note that it plays very fast after some seconds, because Chrome cannot detect its length. It may be a bug, see this [Stackoverflow Question](http://stackoverflow.com/questions/21615089/http-header-for-duration-of-a-mp4-for-html-5-video) to help solving this. 
 * Click the "Cast to Chromecast" button to play the video on your Chromecast. It will plays normally, at its normal speed.
-* Check the terminal to see if any errors were thrown. Sometimes FFmpeg can not handle the video and as a result it will crashe the application. *Sorry.*
+* Check the terminal to see if any errors were thrown. Sometimes FFmpeg can not handle the video and as a result it will crash.
 
 Note
 ====
