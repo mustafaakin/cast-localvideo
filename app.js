@@ -161,6 +161,10 @@ app.get("/video/*", function(req, res) {
 		.on('finish', function() {
 			console.log("ffmpeg process finished");
 		})
+		.on('error', function (error){
+			console.error("ffpeg has crashed", error);
+			res.end();
+		})
 		.stream().pipe(res);
 });
 
