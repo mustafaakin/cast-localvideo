@@ -76,7 +76,21 @@ app.post("/folders", function(req, res) {
 	});
 });
 
-
+function getFileType(path){
+	var extension = require("path").extname(path);
+	if (extension && extension.length && extension.length > 0) {					
+		if (  /\b(wmv|mkv|avi|flv|mov|webm|3gp|mp4)$/i.test(extension) ){
+			return "video";
+		} else if (  /\b(mp3)$/i.test(extension) ){
+			return "audio";
+		} else if ( /\b(jpg|jpeg|png)$/i.test(extension)){
+			return "image";
+		} else {
+			return null;
+		}
+	}
+	return null;
+}
 
 app.post("/files", function(req, res) {
 	var dir = req.body.dir;
@@ -89,15 +103,11 @@ app.post("/files", function(req, res) {
 			var p = path.join(dir, entries[i]);
 			var stat = fs.statSync(p);
 			if (stat.isFile()) {
-				var extension = require("path").extname(p);
-				var isPlayable = false;
-				if (extension && extension.length && extension.length > 0) {
-					isPlayable = /\b(wmv|mkv|avi|flv|mov|webm|3gp|mp4)$/i.test(extension);
-				}
+				console.log(getFileType(p));
 				files.push({
+					filetype: getFileType(p),
 					path: p,
-					name: require("path").basename(p),
-					isPlayable: isPlayable
+					name: require("path").basename(p)
 				});
 			}
 		} catch (ex) {
@@ -135,12 +145,19 @@ app.post("/getFile", function(req, res) {
 	res.sendFile(dir);
 });
 
+app.get("/getFile/*", function(req,res){
+	var dir = req.url.split("/").splice(2).join("/");
+	var buf = new Buffer(dir, 'base64');
+	var src = buf.toString();
+	res.sendfile(src);
+});
+
 app.get("/video/*", function(req, res) {
 	res.writeHead(200, {
 		'Content-Type': 'video/mp4'
 	});
 
-	// It may be wiser to encode it, since we can hit GET path limit
+	// It may be wiser to encode it diffferently, since we can hit GET path limit, 2048 characters I guess
 	var dir = req.url.split("/").splice(2).join("/");
 	var buf = new Buffer(dir, 'base64');
 	var src = buf.toString();
@@ -170,13 +187,22 @@ app.get("/video/*", function(req, res) {
 
 app.post("/metadata", function(req, res) {
 	var file = req.body.file;
-	console.log("Metadata of", file, "requested");
-	var metaObject = new Metalib(file, function(metadata, err) {
+	console.log("Metadata of", file, "requested");	
+	var filetype = getFileType(file);
+	if ( filetype == "video"){
+		var metaObject = new Metalib(file, function(metadata, err) {
+			metadata.path = file;
+			metadata.filetype = filetype;
+			res.render("metadata", metadata);
+		});		
+	} else {
+		// No metada for mp3s/images yet :/
+		var metadata = {};
 		metadata.path = file;
-		res.render("metadata", metadata);
-	});
+		metadata.filetype = filetype;
+		res.render("metadata", metadata);		
+	}
 });
-
 
 console.log("Open http://localhost:8000/ at your Chrome browser.");
 app.listen(8000);

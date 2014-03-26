@@ -1,12 +1,12 @@
 - each f in files
 	- if ( f.path && f.name.indexOf(".") != 0) // Hidden file check
-		- if ( f.isPlayable)
-			a.list-group-item.file(href='#{f.path}')
+		- if ( f.filetype)
+			a.list-group-item.file(href='#{f.path}',data-path='#{f.path}',data-type='#{f.filetype}')
 				.pull-right
 					span.badge #{f.size}
 				.btn.btn-xs.btn-info PLAY
 				| &nbsp; #{f.name}
-		- else 
+		- else if ( 5 == 4) // i don't want to show nonplayable files but I might show them in the future
 			a.list-group-item(data-path='#{f.path}')
 				.badge.pull-right #{f.size}
 				i.glyphicon.glyphicon-file

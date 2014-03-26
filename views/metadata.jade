@@ -1,18 +1,27 @@
 table.table
-	tr
-		th Resolution
-		td #{video.resolution.w} x #{video.resolution.h}
-	tr
-		th Duration
-		td #{durationraw}
-	tr
-		th Video
-		td #{video.codec} - #{video.bitrate}		
-	tr
-		th Audio Bitrate
-		td #{audio.codec} - #{audio.bitrate}
+	- if (filetype == "video")
+		tr
+			th Resolution
+			td #{video.resolution.w} x #{video.resolution.h}
+		tr
+			th Duration
+			td #{durationraw}
+		tr
+			th Video
+			td #{video.codec} - #{video.bitrate}		
+		tr
+			th Audio Bitrate
+			td #{audio.codec} - #{audio.bitrate}
+	- else if ( filetype == "image")
+		tr 
+			th Image
+			td #{path}
+	- else if ( filetype == "audio")
+		tr 
+			th Audio
+			td #{path}
 	tr
 		th
 		td 
-			button.btn-block.btn.btn-primary#playHere(data-path='#{path}') Play Here
-			button.btn-block.btn.btn-default#playCast(data-path='#{path}') Cast to ChromeCast
+			button.btn-block.btn.btn-primary#playHere(data-path='#{path}',data-type="#{filetype}") Play Here
+			button.btn-block.btn.btn-default#playCast(data-path='#{path}',data-type="#{filetype}") Cast to ChromeCast

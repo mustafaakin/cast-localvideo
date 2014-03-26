@@ -83,23 +83,48 @@ $(document).ready(function() {
 
 	$("#playHere").live("click", function() {
 		var path = $(this).data("path");
-		var video = $("#vid").attr("src", "/video/" + btoa(path));
+		var filetype = $(this).data("type");
+		if ( filetype == "video"){
+			$("#localplayarea").html("<video id='vid' autoplay controls></video>")
+			$("#vid").attr("src", "/video/" + btoa(path));
+			$("#vid").css("width", "100%");
+		} else if ( filetype == "audio"){
+			$("#localplayarea").html("<audio id='vid' autoplay controls></audio>")
+			$("#vid").attr("src", "/getFile/" + btoa(path));
+			$("#vid").css("width", "100%");
+		}
 	});
 
 	$("#playCast").live("click", function(){
 		var session = null;
+		var unmodifiedpath = $(this).data("path");
+		var filetype = $(this).data("type");
 		var path = btoa($(this).data("path"));
 		var port = 8000;
-		var prefix = "/video/";
+		var prefix;
+		if (filetype == "video"){
+			prefix =  "/video/"; 
+		} else {
+			prefix =  "/getFile/";
+		}
 		var ip = $("input:radio[name=networkInterface]").val();
 
 		function onRequestSessionSuccess(e){
-			console.log(e);
-			
+			console.log(e);			
 			session = e;
 			var URL = "http://" + ip + ":" + port + prefix + path;
 			var mediaInfo = new chrome.cast.media.MediaInfo(URL);
-			mediaInfo.contentType = 'video/mp4';
+			if ( filetype == "audio"){
+				mediaInfo.contentType = 'audio/mp3';				
+			} else if ( filetype == "video"){				
+				mediaInfo.contentType = 'video/mp4';				
+			} else if ( filetype == "image"){
+				mediaInfo.contentType = 'image/jpg';
+			}
+			mediaInfo.metadata = {
+              "subtitle" : "Brought to you by MustafaCast",
+              "title" : unmodifiedpath
+			}
 			// Maybe set the duration here
 
 			var request = new chrome.cast.media.LoadRequest(mediaInfo);			
