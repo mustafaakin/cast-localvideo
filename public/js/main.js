@@ -42,6 +42,9 @@ $(document).ready(function() {
 		var formValues = "file=" + encodeURIComponent(file);
 		$.post("/metadata", formValues, function(data) {
 			$("#metadata").html(data);
+			if ( session != null){
+				$("#playCast").trigger("click");
+			}
 		});
 	}
 
@@ -78,7 +81,7 @@ $(document).ready(function() {
 	$(".file").live("click", function(e) {
 		e.preventDefault();
 		var path = $(this).attr("href");
-		loadMetaData(path);
+		loadMetaData(path);		
 	})
 
 	$("#playHere").live("click", function() {
@@ -95,8 +98,8 @@ $(document).ready(function() {
 		}
 	});
 
+	var session = null;
 	$("#playCast").live("click", function(){
-		var session = null;
 		var unmodifiedpath = $(this).data("path");
 		var filetype = $(this).data("type");
 		var path = btoa($(this).data("path"));
@@ -146,7 +149,11 @@ $(document).ready(function() {
 			updateCastStatus("Cannot launch: " + e.code);
 			console.log(e);
 		}
-		chrome.cast.requestSession(onRequestSessionSuccess, onLaunchError);
+		if ( session == null){
+			chrome.cast.requestSession(onRequestSessionSuccess, onLaunchError);			
+		} else{
+			onRequestSessionSuccess(session);
+		}
 	});
 
 	function initializeCastApi() {
