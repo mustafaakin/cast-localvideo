@@ -1,108 +1,111 @@
-<!doctype html>
-<html>
+
+<!DOCTYPE html>
+<html lang="en">
   <head>
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <title>Cast-localvideo by mustafaakin</title>
-    <link rel="stylesheet" href="stylesheets/styles.css">
-    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-    <script src="javascripts/main.js"></script>
-    <!--[if lt IE 9]>
-      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="cast-localvideo">
+    <meta name="author" content="Mustafa Akın">    
+    <title>Cast Local Video/Audio/Image</title>
+    <!-- Bootstrap core CSS -->
+    <link href="css/yeti.min.css" rel="stylesheet">
 
   </head>
+
   <body>
 
-      <header>
-        <h1>Cast-localvideo</h1>
-        <p>Plays Local videos at your computer on your Chromecast</p>
-      </header>
-
-      <div id="banner">
-        <span id="logo"></span>
-
-        <a href="https://github.com/mustafaakin/cast-localvideo" class="button fork"><strong>View On GitHub</strong></a>
-        <div class="downloads">
-          <span>Downloads:</span>
-          <ul>
-            <li><a href="https://github.com/mustafaakin/cast-localvideo/zipball/master" class="button">ZIP</a></li>
-            <li><a href="https://github.com/mustafaakin/cast-localvideo/tarball/master" class="button">TAR</a></li>
-          </ul>
+    <div class="jumbotron">
+      <div class="container">
+        <h1>cast-local-video-audio-image</h1>
+        <p>With this application, you can cast the movies, audio, image you have on your local computer to any Chromecast device! And it supports all video formats, not only MP4!</p>
+        <div class="row">
+        <div class="col-sm-8">
+          <img src="screenshot.png" width="100%" />
         </div>
-      </div><!-- end banner -->
-
-    <div class="wrapper">
-      <nav>
-        <ul></ul>
-      </nav>
-      <section>
-        <h1>
-<a name="cast-localvideo" class="anchor" href="#cast-localvideo"><span class="octicon octicon-link"></span></a>cast-localvideo</h1>
-
-<p>Plays Local videos at your computer on your Chromecast. Beta for now.  </p>
-
-<h1>
-<a name="requirements" class="anchor" href="#requirements"><span class="octicon octicon-link"></span></a>Requirements</h1>
-
-<ol>
-<li> A reachable Chromecast on your network, no client isolation in your router etc.</li>
-<li> Chrome Browser version 32 or later</li>
-<li> Cast extension in <a href="https://chrome.google.com/webstore/detail/google-cast/boadgeojelhgndaghljhdicfkmllpafd?hl=en">Chrome Store</a>
-</li>
-<li> NodeJS v0.10+</li>
-<li> FFMpeg installed and reachable in PATH (<a href="http://www.wikihow.com/Install-FFmpeg-on-Windows">Windows guide</a>) </li>
-<li> A fast enough home interconnection network</li>
-</ol><h1>
-<a name="installation-and-use" class="anchor" href="#installation-and-use"><span class="octicon octicon-link"></span></a>Installation and Use</h1>
-
-<ul>
-<li>  On a terminal, do the following:</li>
-</ul><pre><code>// OR Use "Download ZIP" button.
-$ git clone https://github.com/mustafaakin/cast-localvideo.git
-$ cd cast-localvideo
-$ npm install
-$ node app
-
-</code></pre>
-
-<ul>
-<li><p>In Chrome, go to <a href="http://localhost:8000">http://localhost:8000</a>. You will see your folders (just change the folder to <code>/</code> on Linux &amp; Mac). There is no root concept in Windows as in Unix, so if you wish to use another drive, just use <code>D:</code> </p></li>
-<li><p>Navigate through your folders to locate a video.</p></li>
-<li>Select the video and you will see the metadata if it is available in the file. (It currently shows all extensions, does not check if it is really a video file)</li>
-<li>Click play local to test to see if it plays on Chrome. Note that it plays very fast after some seconds, because Chrome cannot detect its length. It may be a bug, see this <a href="http://stackoverflow.com/questions/21615089/http-header-for-duration-of-a-mp4-for-html-5-video">Stackoverflow Question</a> to help solving this. </li>
-<li>Click the "Cast to Chromecast" button to play the video on your Chromecast. It will plays normally, at its normal speed.</li>
-<li>Check the terminal to see if any errors were thrown. Sometimes FFmpeg can not handle the video and as a result it will crashe the application. <em>Sorry.</em>
-</li>
-</ul><h1>
-<a name="note" class="anchor" href="#note"><span class="octicon octicon-link"></span></a>Note</h1>
-
-<p>I developed this on Windows, on my parents computer remotely via TeamViewer. It is not feature complete, but it is easy to add features. Any pull requests and forks are welcome.  </p>
-
-<h1>
-<a name="todos" class="anchor" href="#todos"><span class="octicon octicon-link"></span></a>TODOs</h1>
-
-<ol>
-<li> Be able to pause/resume content.</li>
-<li> Solve <a href="http://stackoverflow.com/questions/21615089/http-header-for-duration-of-a-mp4-for-html-5-video">the duration bug</a>.</li>
-<li> Make use of the session feature of the Cast API to remember what is playing even if the server is down.</li>
-<li> Package it as a nice application for end users.</li>
-<li> Embed subtitles via FFMpeg.</li>
-<li> Resize the videos if they are too big.</li>
-<li> Options to change encoding options.</li>
-</ol><h3>
-<a name="contact" class="anchor" href="#contact"><span class="octicon octicon-link"></span></a>Contact</h3>
-
-<p>Contact <em>mustafa91</em> at <em>gmail</em> for any questions. My website is <a href="http://mustafaak.in">here</a>.</p>
-      </section>
-      <footer>
-        <p>Project maintained by <a href="https://github.com/mustafaakin">mustafaakin</a></p>
-        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://twitter.com/michigangraham">mattgraham</a></small></p>
-      </footer>
+        <div class="col-sm-4">
+            <h3>Features</h3>
+            <ul>
+              <li>It is simple.</li>
+              <li>You don't need a complicated application, setup media folders etc. Just browse your file system. NFS shares are also supported, just type it in the text box under Folder section.</li>
+              <li>After installation you just open the application when you need and close it when you don't.</li>
+              <li>No background services runs and exposes your files.</li>
+              <li>Chromecast supports MP4/WebM video, however you may have MKVs, AVIs. They are automatically converted when needed. It is what differs from extensions</li>
+              <li>It also plays audio files. Support of all audio files will be included soon.</li>
+              <li>Image files are also supported.</li>
+              <li>It has a nice, intutitive UI</li>
+              <li>It is open source, it has several contributors.</li>
+              <li>It does not report what you watch to "content" to NSA, GCHQ</li>
+            </ul>
+        </div>
     </div>
-    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
-    
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="row">        
+        <div class="col-md-6">
+          <h2>Windows</h2>
+          <h4>Installation - One Time</h4>
+          <blockquote>
+          <ol>
+            <li>Install <a href="https://chrome.google.com/webstore/detail/google-cast/boadgeojelhgndaghljhdicfkmllpafd">Cast extension for your Chrome Browser</a></li>
+            <li>Install NodeJS <a href="http://nodejs.org/">by visting their webiste</a> and clicking download button there.</li>
+            <li>Watch <a href="http://www.youtube.com/watch?v=xcdTIDHm4KM">this video</a> to install FFMpeg on Windows</a></li>
+            <li>Download and unzip <a href="https://github.com/mustafaakin/cast-localvideo/archive/master.zip">this link</a> to some folder you wish.</li>
+          </ol>
+        </div>
+        <div class="col-md-6">
+          <h2>Mac</h2>
+          <h4>Installation - One Time</h4>
+          <blockquote>
+          <ol>
+            <li>Install <a href="https://chrome.google.com/webstore/detail/google-cast/boadgeojelhgndaghljhdicfkmllpafd">Cast extension for your Chrome Browser</a></li>
+            <li>Install NodeJS <a href="http://nodejs.org/">by visting their webiste</a> and clicking download button there.</li> 
+            <li>Install Brew <a href="http://brew.sh">a good Mac package manager</a>.</li>
+            <li>Open a terminal and type the following: <code>brew install ffmpeg --with-libvo-aacenc</code></li>
+            <li>Download and unzip <a href="https://github.com/mustafaakin/cast-localvideo/archive/master.zip">this link</a> to some folder you wish.</li>
+          </ol>
+       </div>
+       <div class="col-md-12">
+          </blockquote>
+          <h3>Usage - Each time you want to cast</h3>          
+          <blockquote>
+          <ol>
+            <li>Go to the folder that you unzipped in install step 4</a></li>
+            <li>
+              <ul>
+                <li><b>Windows:</b>
+                  Double click <code>run.bat</code> It will show a command prompt/terminal, black thing with some text. At first run, it will take a while.</a></li>
+                </li>
+                <li><b>Mac:</b>
+                  Click <code>run.sh</code> and run it as a terminal application. It will show a command prompt/terminal, black thing with some text. At first run, it will take a while.</a></li>
+                </li>
+                </ul>
+            <li>After step 2 completes, open Chrome browser and type <a href="http://localhost:8000/">http://localhost:8000/</a>
+            <li>Navigate your folders by the menu on the left.</a>
+            <li>When there is a playable file, you will see it in the midde panel.</li>
+            <li>After clicking a file you like, you will see information about that file on the right.</li>
+            <li>Click "Cast to Chromecast" button to Cast it to Chromecast.</li>
+            <li>Cast icon on the top will show your Chromecasts on your network, select the one you like and your file will be played on Chromecast!</li>
+            <li>When you are done, just close the opened command prompt, black thing with some text</li>
+            <li>To stop playing, just click the Cast icon on top, near the address bar, and click stop button.</li>
+          </ol>
+          </blockquote>
+       </div>
+      <div class="col-md-12">
+        <h3>Bugs, Issues</h3>
+        <p>If you have any bugs, issues with it, please report it on GitHub, the repository of this project.<a href="https://github.com/mustafaakin/cast-localvideo">https://github.com/mustafaakin/cast-localvideo</a></p>
+        <h3>LICENSE</h3>
+        <p>GPL v2, see <a href="https://github.com/mustafaakin/cast-localvideo/blob/master/LICENSE">https://github.com/mustafaakin/cast-localvideo/blob/master/LICENSE</a></p>
+      </div>
+      </div>
+
+      <hr>
+
+      <footer>
+        <p>Brought to you by <a href="http://www.mustafaak.in">Mustafa Akın</a></p>
+      </footer>
+    </div> <!-- /container -->
   </body>
 </html>
