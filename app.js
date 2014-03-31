@@ -163,26 +163,32 @@ app.get("/video/*", function(req, res) {
 	var src = buf.toString();
 
 	var Transcoder = require('./transcoder.js');
-	// Start ffmpeg    
-	var stream = fs.createReadStream(src);
 
-	// Feel free to change those, but libx264 is faster than vp8
-	// A resize mechanism can be used
-	new Transcoder(stream)
-		.videoCodec('libx264')
-		.audioCodec("libvo_aacenc")
-		.sampleRate(44100)
-		.channels(2)
-		.audioBitrate(128 * 1000)
-		.format('mp4')
-		.on('finish', function() {
-			console.log("ffmpeg process finished");
-		})
-		.on('error', function (error){
-			console.error("ffpeg has crashed", error);
-			res.end();
-		})
-		.stream().pipe(res);
+
+  // Get the metadata
+  var metaObject = new Metalib(src, function(metadata, err) {
+
+		metadata.path = src;
+    console.log(metadata.video.codec);
+
+    // Start ffmpeg
+    var stream = fs.createReadStream(src);
+
+    // Feel free to change those, but libx264 is faster than vp8
+    // A resize mechanism can be used
+    var transcoder = new Transcoder(stream);
+    (metadata.video.codec === "h264") ? transcoder.videoCodec('copy') : transcoder.videoCodec('libx264');
+    transcoder.audioCodec("libvo_aacenc")
+      .sampleRate(44100)
+      .channels(2)
+      .audioBitrate(128 * 1000)
+      .format('mp4')
+      .on('finish', function() {
+        console.log("ffmpeg process finished");
+      })
+      .stream().pipe(res);
+	});
+
 });
 
 app.post("/metadata", function(req, res) {
