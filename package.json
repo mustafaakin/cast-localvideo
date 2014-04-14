@@ -1,10 +1,13 @@
 {
-	"name" : "chromecast-sender",
-	"version" : "0.0.1",
-	"dependencies" : {
-		"async"   : "*",
-		"express" : "*",
-		"jade"    : "*",
-		"fluent-ffmpeg": "*"
-	}
+    "name" : "chromecast-sender",
+    "version" : "0.0.1",
+    "dependencies" : {
+        "async"   : "*",
+        "express" : "*",
+        "jade"    : "*",
+        "cookie-parser": "*",
+        "body-parser": "*",
+        "morgan": "*",
+        "fluent-ffmpeg": "*"
+    }
 }
