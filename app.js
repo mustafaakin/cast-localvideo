@@ -5,6 +5,9 @@ var spawn = require("child_process").spawn;
 var Metalib = require('fluent-ffmpeg').Metadata;
 var os = require("os");
 var async = require("async");
+var bodyParser = require("body-parser");
+var cookieParser = require("cookie-parser");
+var morgan = require("morgan");
 
 function convertBytesToHumanReadableString(bytes) {
 	var values = ["B", "KB", "MB", "GB", "TB"];
@@ -22,10 +25,9 @@ app.set('view engine', 'jade');
 app.set('view options', {
 	layout: false
 });
-app.use(express.json());
-app.use(express.urlencoded());
-app.use(express.cookieParser());
-app.use(express.logger("dev"));
+app.use(bodyParser());
+app.use(cookieParser());
+app.use(morgan("dev"));
 app.use(express.static(__dirname + '/public'));
 
 var gui = function(req, res) {
