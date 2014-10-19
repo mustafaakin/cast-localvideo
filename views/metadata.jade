@@ -2,16 +2,16 @@ table.table
 	- if (filetype == "video")
 		tr
 			th Resolution
-			td #{video.resolution.w} x #{video.resolution.h}
+			td #{video.width} x #{video.height}
 		tr
 			th Duration
-			td #{durationraw}
+			td #{video.duration}
 		tr
 			th Video
-			td #{video.codec} - #{video.bitrate}		
+			td #{video.codec_long_name} - #{video.bit_rate}
 		tr
 			th Audio Bitrate
-			td #{audio.codec} - #{audio.bitrate}
+			td #{audio.codec_long} - #{audio.bitrate}
 	- else if ( filetype == "image")
 		tr 
 			th Image
