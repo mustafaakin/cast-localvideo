@@ -2,7 +2,7 @@ var express = require("express");
 var fs = require("fs");
 var path = require("path");
 var spawn = require("child_process").spawn;
-var Metalib = require('fluent-ffmpeg').Metadata;
+var ffmpeg = require('fluent-ffmpeg');
 var os = require("os");
 var async = require("async");
 var bodyParser = require("body-parser");
@@ -19,6 +19,11 @@ function convertBytesToHumanReadableString(bytes) {
 	return parseInt(bytes) + " " + values[i];
 }
 
+function get_stream(metadata, kind) {
+    return metadata.streams.filter(function(s) {
+	return s.codec_type === kind;
+    })[0];
+}
 
 var app = express();
 app.set('view engine', 'jade');
@@ -155,10 +160,6 @@ app.get("/getFile/*", function(req,res){
 });
 
 app.get("/video/*", function(req, res) {
-	res.writeHead(200, {
-		'Content-Type': 'video/mp4'
-	});
-
 	// It may be wiser to encode it diffferently, since we can hit GET path limit, 2048 characters I guess
 	var dir = req.url.split("/").splice(2).join("/");
 	var buf = new Buffer(dir, 'base64');
@@ -168,18 +169,21 @@ app.get("/video/*", function(req, res) {
 
 
   // Get the metadata
-  var metaObject = new Metalib(src, function(metadata, err) {
+  ffmpeg.ffprobe(src, function(err, metadata) {
+      // Start ffmpeg
+      var stream = fs.createReadStream(src);
+      var video = get_stream(metadata, 'video');
 
-		metadata.path = src;
-    console.log(metadata.video.codec);
+      // Feel free to change those, but libx264 is faster than vp8
+      // A resize mechanism can be used
+      var transcoder = new Transcoder(stream);
+      (video.codec === "h264") ? transcoder.videoCodec('copy') : transcoder.videoCodec('libx264');
 
-    // Start ffmpeg
-    var stream = fs.createReadStream(src);
+      res.writeHead(200, {
+	  'Content-Type': 'video/mp4',
+	  'X-Content-Duration': video.duration
+      });
 
-    // Feel free to change those, but libx264 is faster than vp8
-    // A resize mechanism can be used
-    var transcoder = new Transcoder(stream);
-    (metadata.video.codec === "h264") ? transcoder.videoCodec('copy') : transcoder.videoCodec('libx264');
     transcoder.audioCodec("libvo_aacenc")
       .sampleRate(44100)
       .channels(2)
@@ -198,10 +202,24 @@ app.post("/metadata", function(req, res) {
 	console.log("Metadata of", file, "requested");	
 	var filetype = getFileType(file);
 	if ( filetype == "video"){
-		var metaObject = new Metalib(file, function(metadata, err) {
-			metadata.path = file;
-			metadata.filetype = filetype;
-			res.render("metadata", metadata);
+		ffmpeg.ffprobe(file, function(err, metadata) {
+		    metadata.path = file;
+		    metadata.filetype = filetype;
+		    res.render("metadata", {
+			path: file,
+			filetype: filetype,
+			video: get_stream(metadata, 'video') || {
+			    width: -1,
+			    height: -1,
+			    duration: -1,
+			    bit_rate: -1,
+			    codec_long_name: 'N/A'
+			},
+			audio: get_stream(metadata, 'audio') || {
+			    bit_rate: -1,
+			    codec_long_name: 'N/A'
+			}
+		    });
 		});		
 	} else {
 		// No metada for mp3s/images yet :/

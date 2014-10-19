@@ -8,6 +8,6 @@
         "cookie-parser": "*",
         "body-parser": "*",
         "morgan": "*",
-        "fluent-ffmpeg": "*"
+        "fluent-ffmpeg": "2.0.0-rc2"
     }
 }
